@@ -15,21 +15,24 @@ const Index = () => {
     const { Client } = require('@coin98-com/connect-sdk')
     const client = new Client()
 
-    await client.connect(chainId, {
+    const test = await client.connect(chainId, {
       logo: "Provide Your App Logo URL",
       name: "Your App Name",
       url: "Provide Your App URL"
     })
 
 
-    const result: any = await client.request({
+    console.log('hihih',test)
+    const {result} : { result: any} = await client.request({
       method: "cosmos_getKey",
       params: [chainId]
     })
 
-    return result.bech32Address
+    console.log('gegwegew',result)
 
+    
 
+    setAddress(result.bech32Address)
   }
 
   const test = (isAuto?: boolean) => async () => {
