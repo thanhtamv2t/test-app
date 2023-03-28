@@ -70,82 +70,38 @@ const Index = () => {
       return setResult(result)
     }
 
-    if (isAuto) {
-      const result = await client.request({
-        "method": "cosmos_execute",
-        "params": [
-          {
-            "chainId": "serenity-testnet-001",
-            "signer": address,
-            "contractAddress": "aura1vtnsw78m2q7gcmtek9mqsjes0790mjxmtjsxnk66648x8x974zksgrs09v",
-            "msg": {
-              "mint": {
-                "phase_id": 4,
-                "amount": 1
-              }
-            },
-            "memo": "with gas Limit",
-            "fee": {
-              amount: [{
-                denom: 'uaura',
-                amount: '400000'
-              }],
-              gas: gasLimit,
-              gasLimit: gasLimit
-            },
-            "funds": [
-              {
-                "amount": "1",
-                "denom": "uaura"
-              }
-            ]
-          }
-        ]
-      })
-      return setResult(result)
-    }
-
-
-
-
-    // {
-    //     gasPrice: string | GasPrice
-    // }
-
-
-
-    // const offlineSigner = await client.getOfflineSigner(chainId)
-
-
-    // const sClient = await SigningCosmWasmClient.connectWithSigner('https://rpc.serenity.aura.network/', offlineSigner, {
-    //     prefix: "aura"
-    // })
-
-
-
-
-
-    // const result = await sClient.execute('aura1n4aqj7lucydfdfmml7kvw2lecld99ere3f22v5', 'aura1vtnsw78m2q7gcmtek9mqsjes0790mjxmtjsxnk66648x8x974zksgrs09v', {
-    //     "mint": {
-    //         "phase_id": 1,
-    //         "amount": 1
-    //     }
-    // }, {
-    //     amount: [{
-    //         denom: 'uaura',
-    //         amount: '400000'
-    //     }],
-    //     gas: '500000',
-    //     gasLimit: '500000'
-    // }, "", [
-    //     {
-    //         "denom": "uaura",
-    //         "amount": "2000000"
-    //     }
-    // ])
-
-
-    setResult(result)
+    const result = await client.request({
+      "method": "cosmos_execute",
+      "params": [
+        {
+          "chainId": "serenity-testnet-001",
+          "signer": address,
+          "contractAddress": "aura1vtnsw78m2q7gcmtek9mqsjes0790mjxmtjsxnk66648x8x974zksgrs09v",
+          "msg": {
+            "mint": {
+              "phase_id": 4,
+              "amount": 1
+            }
+          },
+          "memo": "with gas Limit",
+          "fee": {
+            amount: [{
+              denom: 'uaura',
+              amount: '400000'
+            }],
+            gas: gasLimit,
+            gasLimit: gasLimit
+          },
+          "funds": [
+            {
+              "amount": "1",
+              "denom": "uaura"
+            }
+          ]
+        }
+      ]
+    })
+    return setResult(result)
 
     //Dapp
     // {
