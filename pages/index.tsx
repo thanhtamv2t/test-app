@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 // import {Client} from '@coin98-com/connect-sdk'
 // import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
@@ -11,10 +11,12 @@ const Index = () => {
 
   const [result, setResult] = useState()
 
+  const clientRef = useRef<any>()
+
   const connect = async () => {
     const { Client } = require('@coin98-com/connect-sdk')
     const client = new Client()
-
+    clientRef.current = client;
     const test = await client.connect(chainId, {
       logo: "Provide Your App Logo URL",
       name: "Your App Name",
@@ -37,9 +39,7 @@ const Index = () => {
 
   const test = (isAuto?: boolean) => async () => {
 
-    const { Client } = require('@coin98-com/connect-sdk')
-    const client = new Client()
-
+    const client = clientRef.current
 
     if (isAuto) {
       const result = await client.request({
@@ -67,7 +67,7 @@ const Index = () => {
           }
         ]
       })
-      return result
+      return setResult(result)
     }
 
     if (isAuto) {
@@ -102,7 +102,7 @@ const Index = () => {
           }
         ]
       })
-      return result
+      return setResult(result)
     }
 
 
