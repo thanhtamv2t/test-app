@@ -1,0 +1,57 @@
+diff --git a/node_modules/@cosmjs/cosmwasm-stargate/build/cosmwasmclient.js b/node_modules/@cosmjs/cosmwasm-stargate/build/cosmwasmclient.js
+index 6e0bc6e..6dacd5d 100644
+--- a/node_modules/@cosmjs/cosmwasm-stargate/build/cosmwasmclient.js
++++ b/node_modules/@cosmjs/cosmwasm-stargate/build/cosmwasmclient.js
+@@ -40,8 +40,10 @@ class CosmWasmClient {
+         return this.queryClient;
+     }
+     async getChainId() {
++        this.chainId = "atlantic-2"
+         if (!this.chainId) {
+             const response = await this.forceGetTmClient().status();
++            console.log(`🐳 -> getChainId -> response`, response)
+             const chainId = response.nodeInfo.network;
+             if (!chainId)
+                 throw new Error("Chain ID must not be empty");
+diff --git a/node_modules/@cosmjs/cosmwasm-stargate/build/signingcosmwasmclient.js b/node_modules/@cosmjs/cosmwasm-stargate/build/signingcosmwasmclient.js
+index b914d44..c19f331 100644
+--- a/node_modules/@cosmjs/cosmwasm-stargate/build/signingcosmwasmclient.js
++++ b/node_modules/@cosmjs/cosmwasm-stargate/build/signingcosmwasmclient.js
+@@ -212,6 +212,8 @@ class SigningCosmWasmClient extends cosmwasmclient_1.CosmWasmClient {
+                 funds: [...(i.funds || [])],
+             }),
+         }));
++
++
+         const result = await this.signAndBroadcast(senderAddress, msgs, fee, memo);
+         if ((0, stargate_1.isDeliverTxFailure)(result)) {
+             throw new Error(createDeliverTxResponseErrorMessage(result));
+@@ -276,6 +278,8 @@ class SigningCosmWasmClient extends cosmwasmclient_1.CosmWasmClient {
+         else {
+             usedFee = fee;
+         }
++
++        console.log({signerAddress, messages, usedFee, memo})
+         const txRaw = await this.sign(signerAddress, messages, usedFee, memo);
+         const txBytes = tx_3.TxRaw.encode(txRaw).finish();
+         return this.broadcastTx(txBytes, this.broadcastTimeoutMs, this.broadcastPollIntervalMs);
+@@ -286,13 +290,19 @@ class SigningCosmWasmClient extends cosmwasmclient_1.CosmWasmClient {
+             signerData = explicitSignerData;
+         }
+         else {
++            console.log('fewfewfew')
+             const { accountNumber, sequence } = await this.getSequence(signerAddress);
++            console.log('fewfewfew',{accountNumber,sequence})
+             const chainId = await this.getChainId();
+             signerData = {
+                 accountNumber: accountNumber,
+                 sequence: sequence,
+                 chainId: chainId,
+             };
++
++            console.log(`🐳 -> sign -> signerData`, signerData)
++
++            
+         }
+         return (0, proto_signing_1.isOfflineDirectSigner)(this.signer)
+             ? this.signDirect(signerAddress, messages, fee, memo, signerData)
